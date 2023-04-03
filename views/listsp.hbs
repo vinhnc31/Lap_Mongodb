@@ -1,0 +1,78 @@
+<div class="container">
+    <h2>Danh Sách Sản Phẩm</h2>
+    <a href="/addUser" class="btn btn-primary btn-lg">Thêm Sản Phẩm</a>
+    <div class="table table-striped" style="margin-top: 10px;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên</th>
+                    <th>Mô Tả</th>
+                    <th>Gía</th>
+                    <th>Số Lượng</th>
+                    <th>Khuyến Mại(%)</th>
+                    <th>Chức Năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each users}}
+                <tr>
+                    <td>{{sum @index 1}}</td>
+                    <td>{{this.ten}}</td>
+                    <td>{{this.mota}}</td>
+                    <td>{{this.gia}}</td>
+                    <td>{{this.soluong}}</td>
+                    <td>{{this.khuyenmai}}</td>
+                    <td>
+                        <a href="/{{this._id}}/editsp" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-id="{{this._id}}"
+                            data-target="#delete-sp-model" style="margin-top: 5px;">Delete</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" id="delete-sp-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông Báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn Có Chắc Là Muốn Xóa Sản Phẩm.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-delete-sanpham" type="button" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form  name="from-delete" method="POST"></form>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var idsp ;
+    var deletefrom = document.forms['from-delete']
+ $('#delete-sp-model').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+       idsp = button.data('id');
+       
+    });
+
+
+    var btnDelete = document.getElementById('btn-delete-sanpham')
+    btnDelete.onclick = function(){
+        deletefrom.action = idsp +'?_method=DELETE';
+        deletefrom.submit();
+    }
+})
+</script>
